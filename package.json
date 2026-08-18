@@ -1,0 +1,11 @@
+{
+  "name": "yaomingbai",
+  "private": true,
+  "version": "0.1.0",
+  "description": "面向长辈的轻量化用药说明与提醒网页",
+  "scripts": {
+    "serve": "python3 -m http.server 8080",
+    "release:check": "node scripts/release-status.js",
+    "release:verify": "node scripts/verify-public.js"
+  }
+}

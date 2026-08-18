@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#dfeee4">
+  <meta name="description" content="帮助长辈看懂药品说明书、按时用药的轻量工具">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%2375a888'/%3E%3Cpath d='M20 32h24M32 20v24' stroke='white' stroke-width='6' stroke-linecap='round'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="styles.css">
+  <title>药明白｜长辈用药助手</title>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand-mark" aria-hidden="true">+</div>
+    <div>
+      <h1>药明白</h1>
+      <p>把说明书说得明白一点</p>
+    </div>
+    <button id="install-button" class="install-button" type="button" hidden>添加到桌面</button>
+  </header>
+
+  <main>
+    <section class="welcome panel">
+      <div>
+        <p class="eyebrow">给家里长辈的用药小帮手</p>
+        <h2>看得清，听得懂，<br>记得按时吃药。</h2>
+        <p class="intro">上传药盒正面或说明书照片，先从熟悉的药品开始。识读结果会按服用方法、注意事项和不良反应分开显示。</p>
+      </div>
+      <div class="welcome-leaf" aria-hidden="true">药<br>安</div>
+    </section>
+
+    <nav class="feature-grid" aria-label="主要功能">
+      <a class="feature-card" href="#recognition">
+        <span class="feature-icon">▣</span><span><strong>拍药识读</strong><small>上传照片看懂说明</small></span>
+      </a>
+      <a class="feature-card" href="#voice">
+        <span class="feature-icon">◖</span><span><strong>语音播报</strong><small>舒缓慢速读给你听</small></span>
+      </a>
+      <a class="feature-card" href="#reminder">
+        <span class="feature-icon">◷</span><span><strong>用药提醒</strong><small>到点轻声提醒</small></span>
+      </a>
+    </nav>
+
+    <section id="recognition" class="panel section-panel">
+      <div class="section-heading">
+        <div><p class="eyebrow">第一步</p><h2>拍药识读</h2></div>
+        <span class="step-badge">1</span>
+      </div>
+      <p class="section-copy">尽量拍到药盒上的药名和用法。只有正面照片时，背面的小字可能还需要补拍。</p>
+      <label class="upload-box" for="medicine-image">
+        <span class="upload-symbol">＋</span>
+        <span><strong>选择药盒照片</strong><small>支持 JPG、PNG，照片只在本机处理</small></span>
+        <input id="medicine-image" type="file" accept="image/*">
+      </label>
+      <div id="image-preview" class="image-preview" hidden>
+        <img id="preview-image" alt="刚刚选择的药盒照片">
+        <div><strong id="file-name">照片已选择</strong><span id="file-meta"></span></div>
+      </div>
+      <div class="raw-input-wrap">
+        <label for="raw-text">如果识别有误，可以把看得到的文字补在这里</label>
+        <textarea id="raw-text" rows="3" placeholder="例如：蒲地蓝消炎片 口服 一次 2-3片"></textarea>
+      </div>
+      <button id="recognize-button" class="primary-button" type="button" disabled>开始识读</button>
+      <p id="recognition-status" class="status" role="status"></p>
+    </section>
+
+    <section id="results" class="panel section-panel results-panel" hidden>
+      <div class="result-title"><div><p class="eyebrow">识读结果</p><h2 id="medicine-name">药品信息</h2></div><span id="confidence" class="confidence">本地识读</span></div>
+      <p id="cleaned-text" class="cleaned-text"></p>
+      <div class="result-grid">
+        <article class="result-card dose"><span class="result-label">怎么吃</span><strong id="dose-value">待补充</strong><p id="dose-note"></p></article>
+        <article class="result-card caution"><span class="result-label">哪些情况要问医生</span><strong id="caution-value">待补充</strong><p id="caution-note"></p></article>
+        <article class="result-card reaction"><span class="result-label">可能的不舒服</span><strong id="reaction-value">待补充</strong><p id="reaction-note"></p></article>
+      </div>
+      <p class="medical-note">这里只整理照片里读到的内容，不能代替医生或药师的判断。</p>
+    </section>
+
+    <section id="voice" class="panel section-panel">
+      <div class="section-heading"><div><p class="eyebrow">第二步</p><h2>语音播报</h2></div><span class="step-badge">2</span></div>
+      <p class="section-copy">识读完成后，按一下播放键，就能用舒缓的速度听一遍重点。</p>
+      <div class="voice-control">
+        <button id="speak-button" class="round-button" type="button" aria-label="朗读药品解读" disabled>▶</button>
+        <div><strong id="voice-title">还没有可朗读的内容</strong><span id="voice-state">先完成一次识读</span></div>
+      </div>
+    </section>
+
+    <section id="reminder" class="panel section-panel">
+      <div class="section-heading"><div><p class="eyebrow">第三步</p><h2>用药提醒</h2></div><span class="step-badge">3</span></div>
+      <p class="section-copy">设一个每天的时间，到点会在这个页面弹出提醒并播放柔和提示音。</p>
+      <form id="reminder-form" class="reminder-form">
+        <label>药品或备注<input id="reminder-label" type="text" placeholder="例如：早餐后的药" required></label>
+        <label>每天提醒时间<input id="reminder-time" type="time" required></label>
+        <button class="primary-button" type="submit">保存提醒</button>
+      </form>
+      <div id="reminder-list" class="reminder-list" aria-live="polite"></div>
+    </section>
+  </main>
+
+  <footer><span>药明白</span><span>简单、清楚、没有广告</span></footer>
+  <div id="toast" class="toast" role="alert" hidden></div>
+  <script src="app.js" type="module"></script>
+</body>
+</html>
