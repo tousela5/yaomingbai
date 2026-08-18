@@ -56,7 +56,7 @@ for (const relativePath of requiredFiles) {
   if (!exists(relativePath)) errors.push(`缺少发布所需文件：${relativePath}`);
 }
 for (const relativePath of preservedDemoFiles) {
-  if (!exists(relativePath)) warnings.push(`本地复核素材不存在：${relativePath}`);
+  if (!exists(relativePath)) errors.push(`不能删除用于复核的本地素材：${relativePath}`);
 }
 
 if (exists('manifest.json')) {
