@@ -82,6 +82,13 @@ if (exists('index.html')) {
   }
 }
 
+if (exists('app.js')) {
+  const app = read('app.js');
+  for (const markerText of ['FileReader', 'speechSynthesis', 'localStorage', 'checkReminders', 'beforeinstallprompt']) {
+    if (!app.includes(markerText)) errors.push(`页面脚本缺少现有功能逻辑：${markerText}`);
+  }
+}
+
 if (errors.length) {
   console.error('发布检查未通过：');
   errors.forEach((message) => console.error(`- ${message}`));

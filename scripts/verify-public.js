@@ -62,6 +62,11 @@ async function fetchResource(relativePath) {
     if (!html.includes(marker)) failures.push(`首页缺少功能标记：${marker}`);
   }
 
+  const appText = fetched.get('app.js')?.body || '';
+  for (const marker of ['FileReader', 'speechSynthesis', 'localStorage', 'checkReminders', 'beforeinstallprompt']) {
+    if (!appText.includes(marker)) failures.push(`公网脚本缺少功能逻辑：${marker}`);
+  }
+
   const manifestText = fetched.get('manifest.json')?.body;
   if (manifestText) {
     try {
